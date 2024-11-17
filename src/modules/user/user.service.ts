@@ -8,7 +8,6 @@ class UserService {
   public constructor(private prisma: PrismaService) {}
   public async getUser(id: number) {
     const user = await this.prisma.user.findUnique({ where: { id } });
-    console.log(user);
 
     if (!user) {
       return { error: 'user id doesn`t found' };

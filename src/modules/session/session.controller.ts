@@ -1,12 +1,12 @@
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import SessionService from './session.service';
 
 @Controller('session')
 class SessionController {
   public constructor(private sessionServices: SessionService) {}
   @Post()
-  public async login(email: string, password: string) {
-    return { ok: 'arrived' };
+  public async login(@Body('email') email, @Body('password') password) {
+    return this.sessionServices.login(email, password);
   }
 }
 
