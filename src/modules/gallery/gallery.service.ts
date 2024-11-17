@@ -35,5 +35,25 @@ class GalleryService {
     }
     return { statusCode: 200, message: image };
   }
+
+  public async delete(id: number, userId: number) {
+    const image = await this.prisma.gallery.findUnique({
+      where: { id, user_id: userId },
+    });
+
+    if (!image) {
+      return {
+        statusCode: 404,
+        message: 'image does not found.',
+      };
+    }
+
+    await this.prisma.gallery.delete({ where: { id } });
+
+    return {
+      statusCode: 200,
+      message: 'image deleted.',
+    };
+  }
 }
 export default GalleryService;
