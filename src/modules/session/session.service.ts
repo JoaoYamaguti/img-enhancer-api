@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/common/database/prisma.service';
 import * as bcrypt from 'bcrypt';
-import * as jwt from 'jsonwebtoken';
-import { authConfig } from 'src/lib/auth.config';
+// import * as jwt from 'jsonwebtoken';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 class SessionService {
-  public constructor(private prisma: PrismaService) {}
+  public constructor(
+    private prisma: PrismaService,
+    private jwtService: JwtService,
+  ) {}
   public async login(email: string, password: string) {
     const user = await this.prisma.user.findUnique({ where: { email } });
 
@@ -30,9 +33,7 @@ class SessionService {
       statusCode: 200,
       message: {
         user,
-        token: jwt.sign({ id }, authConfig.secret, {
-          expiresIn: authConfig.expiresIn,
-        }),
+        token: this.jwtService.sign({ id }),
       },
     };
   }

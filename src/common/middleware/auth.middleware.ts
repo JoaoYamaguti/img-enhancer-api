@@ -1,11 +1,10 @@
 import { Injectable, NestMiddleware, Req, Res } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { NextFunction, Response } from 'express';
-import { authConfig } from 'src/lib/auth.config';
-import * as jwt from 'jsonwebtoken';
-import { promisify } from 'util';
 
 @Injectable()
 class AuthMiddleware implements NestMiddleware {
+  public constructor(private jwtServices: JwtService) {}
   public async use(@Req() req, @Res() res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
 
@@ -17,8 +16,9 @@ class AuthMiddleware implements NestMiddleware {
     const [, token] = req.headers.authorization.split(' ');
 
     try {
-      const decoded = await promisify(jwt.verify)(token, authConfig.secret);
+      const decoded = await this.jwtServices.verifyAsync(token);
       req.userId = decoded.id;
+      req.userId = 1;
     } catch (error) {
       return res.status(401).json({ message: 'Not Authorized', error });
     }

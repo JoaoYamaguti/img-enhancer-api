@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from 'src/common/database/prisma.service';
 
 @Injectable()
 class GalleryService {
@@ -15,8 +15,25 @@ class GalleryService {
     };
   }
 
-  public async create(filename: string, caught_file: string, new_file: string) {
-    return { statusCode: 200, message: 'ok' };
+  public async create(
+    userId: number,
+    filename: string,
+    caught_file: string,
+    new_file: string,
+  ) {
+    const image = await this.prisma.gallery.create({
+      data: {
+        user_id: userId,
+        filename,
+        caught_file,
+        new_file,
+      },
+    });
+
+    if (!image) {
+      return { statusCode: 400, message: 'failed' };
+    }
+    return { statusCode: 200, message: image };
   }
 }
 export default GalleryService;

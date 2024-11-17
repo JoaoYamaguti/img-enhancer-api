@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { Response } from 'express';
 import GalleryService from './gallery.service';
+import { CreateGalleryReqDto } from './gallery.req.dto';
 
 @Controller('gallery')
 class GalleryController {
@@ -12,15 +13,15 @@ class GalleryController {
   }
   @Post()
   public async create(
-    @Body('filename') filename,
-    @Body('caught_file') caught_file,
-    @Body('new_file') new_file,
+    @Req() req,
+    @Body() body: CreateGalleryReqDto,
     @Res() res: Response,
   ) {
     const service = await this.galleryService.create(
-      filename,
-      caught_file,
-      new_file,
+      req.userId,
+      body.filename,
+      body.caught_file,
+      body.new_file,
     );
     return res.status(service.statusCode).json(service.message);
   }
