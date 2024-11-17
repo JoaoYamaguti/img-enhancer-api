@@ -12,8 +12,8 @@ class SessionService {
 
     if (!user) {
       return {
-        status: 404,
-        error: 'email does not exists.',
+        statusCode: 404,
+        message: 'email does not exists.',
       };
     }
 
@@ -21,17 +21,19 @@ class SessionService {
 
     if (!(await bcrypt.compare(password, password_hash))) {
       return {
-        status: 401,
-        error: 'password is incorrect.',
+        statusCode: 401,
+        message: 'password is incorrect.',
       };
     }
 
     return {
-      //   user: { id, email, name },
-      user,
-      token: jwt.sign({ id }, authConfig.secret, {
-        expiresIn: authConfig.expiresIn,
-      }),
+      statusCode: 200,
+      message: {
+        user,
+        token: jwt.sign({ id }, authConfig.secret, {
+          expiresIn: authConfig.expiresIn,
+        }),
+      },
     };
   }
 }
