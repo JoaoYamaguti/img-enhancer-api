@@ -7,7 +7,8 @@ class UserController {
   public constructor(private userServices: UserService) {}
   @Get()
   public async index(@Body('id') id, @Res() res: Response) {
-    return res.json(await this.userServices.getUser(id));
+    const service = await this.userServices.getUser(id);
+    return res.status(service.statusCode).json(service.message);
   }
   @Post()
   public async store(
@@ -16,11 +17,13 @@ class UserController {
     @Body('password') password,
     @Res() res: Response,
   ) {
-    return res.json(await this.userServices.createUser(name, email, password));
+    const service = await this.userServices.createUser(name, email, password);
+    return res.status(service.statusCode).json(service.message);
   }
   @Delete()
-  public delete(@Body('id') id) {
-    return this.userServices.deleteUser(id);
+  public async delete(@Body('id') id, @Res() res: Response) {
+    const service = await this.userServices.deleteUser(id);
+    return res.status(service.statusCode).json(service.message);
   }
 }
 
