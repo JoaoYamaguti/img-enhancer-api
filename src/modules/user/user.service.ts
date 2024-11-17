@@ -10,7 +10,7 @@ class UserService {
     const user = await this.prisma.user.findUnique({ where: { id } });
 
     if (!user) {
-      return { statusCode: 400, message: 'user id doesn`t found' };
+      return { statusCode: 404, message: 'user id does not found' };
     }
 
     return { statusCode: 200, message: user };
@@ -35,7 +35,7 @@ class UserService {
   public async deleteUser(id: number) {
     const user = await this.prisma.user.findUnique({ where: { id } });
     if (!user) {
-      return { statusCode: 400, message: 'User does not found' };
+      return { statusCode: 404, message: 'User does not found' };
     }
 
     this.prisma.user.delete({ where: { id } });
