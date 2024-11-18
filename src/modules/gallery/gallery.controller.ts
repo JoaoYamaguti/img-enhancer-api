@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   Req,
   Res,
 } from '@nestjs/common';
@@ -16,8 +17,8 @@ import { CreateGalleryReqDto } from './gallery.req.dto';
 class GalleryController {
   public constructor(private galleryService: GalleryService) {}
   @Get()
-  public async index(@Req() req, @Res() res: Response) {
-    const service = await this.galleryService.index(req.userId);
+  public async index(@Req() req, @Query('page') page, @Res() res: Response) {
+    const service = await this.galleryService.index(req.userId, page);
     return res.status(service.statusCode).json(service.message);
   }
   @Post()

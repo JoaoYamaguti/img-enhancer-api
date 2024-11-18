@@ -5,9 +5,12 @@ import { PrismaService } from 'src/common/database/prisma.service';
 class GalleryService {
   public constructor(private prisma: PrismaService) {}
 
-  public async index(userId: number) {
+  public async index(userId: number, page: number) {
+    console.log(page);
     const gallery = await this.prisma.gallery.findMany({
       where: { user_id: userId },
+      take: 6,
+      skip: 6 * (page - 1),
     });
     return {
       statusCode: 200,
