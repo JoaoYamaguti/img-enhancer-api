@@ -6,15 +6,6 @@ import * as bcrypt from 'bcrypt';
 @Injectable()
 class UserService {
   public constructor(private prisma: PrismaService) {}
-  public async getUser(id: number) {
-    const user = await this.prisma.user.findUnique({ where: { id } });
-
-    if (!user) {
-      return { statusCode: 404, message: 'user id does not found' };
-    }
-
-    return { statusCode: 200, message: user };
-  }
   public async createUser(name: string, email: string, password: string) {
     const userExists = await this.prisma.user.findUnique({ where: { email } });
     if (userExists) {
@@ -38,7 +29,7 @@ class UserService {
       return { statusCode: 404, message: 'User does not found' };
     }
 
-    this.prisma.user.delete({ where: { id } });
+    await this.prisma.user.delete({ where: { id } });
 
     return { statusCode: 200, message: 'User Deleted.' };
   }

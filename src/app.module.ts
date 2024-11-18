@@ -1,5 +1,9 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import TestModule from './modules/test/test.module';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import UserModule from './modules/user/user.module';
 import SessionModule from './modules/session/session.module';
 import GalleryModule from './modules/gallery/gallery.module';
@@ -9,7 +13,6 @@ import { authConfig } from './common/config/auth.config';
 
 @Module({
   imports: [
-    TestModule,
     UserModule,
     SessionModule,
     GalleryModule,
@@ -22,6 +25,8 @@ import { authConfig } from './common/config/auth.config';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes('gallery');
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes('gallery', { path: 'user', method: RequestMethod.DELETE });
   }
 }
