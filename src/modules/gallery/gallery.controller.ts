@@ -9,16 +9,20 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { query, Response } from 'express';
 import GalleryService from './gallery.service';
-import { CreateGalleryReqDto } from './gallery.req.dto';
+import { CreateGalleryReqDto, CreatePageReqDto } from './gallery.req.dto';
 
 @Controller('gallery')
 class GalleryController {
   public constructor(private galleryService: GalleryService) {}
   @Get()
-  public async index(@Req() req, @Query('page') page, @Res() res: Response) {
-    const service = await this.galleryService.index(req.userId, page);
+  public async index(
+    @Req() req,
+    @Query() query: CreatePageReqDto,
+    @Res() res: Response,
+  ) {
+    const service = await this.galleryService.index(req.userId, query.page);
     return res.status(service.statusCode).json(service.message);
   }
   @Post()
