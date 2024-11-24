@@ -14,7 +14,7 @@ class UserController {
       body.email,
       body.password,
     );
-    return res.status(service.statusCode).json(service.message);
+    return res.status(service.statusCode).json(service);
   }
 
   @Delete('')

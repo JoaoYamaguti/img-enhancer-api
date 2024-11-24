@@ -9,7 +9,6 @@ class AuthMiddleware implements NestMiddleware {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-      console.log('cheguei');
       return res.status(400).json({ message: 'token does not provided' });
     }
 
@@ -18,7 +17,6 @@ class AuthMiddleware implements NestMiddleware {
     try {
       const decoded = await this.jwtServices.verifyAsync(token);
       req.userId = decoded.id;
-      req.userId = 1;
     } catch (error) {
       return res.status(401).json({ message: 'Not Authorized', error });
     }

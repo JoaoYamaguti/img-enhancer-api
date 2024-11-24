@@ -20,7 +20,7 @@ class SessionService {
       };
     }
 
-    const { id, password_hash } = user;
+    const { id, name, password_hash, created_at } = user;
 
     if (!(await bcrypt.compare(password, password_hash))) {
       return {
@@ -32,7 +32,7 @@ class SessionService {
     return {
       statusCode: 200,
       message: {
-        user,
+        user: { id, name, email, created_at },
         token: this.jwtService.sign({ id }),
       },
     };

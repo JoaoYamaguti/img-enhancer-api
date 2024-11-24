@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateGalleryReqDto {
   @IsString()
@@ -15,7 +15,6 @@ export class CreateGalleryReqDto {
 }
 
 export class CreatePageReqDto {
-  @IsNumber()
   @IsNotEmpty()
   page: number;
 }

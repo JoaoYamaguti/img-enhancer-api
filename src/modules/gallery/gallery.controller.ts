@@ -9,7 +9,7 @@ import {
   Req,
   Res,
 } from '@nestjs/common';
-import { query, Response } from 'express';
+import { Response } from 'express';
 import GalleryService from './gallery.service';
 import { CreateGalleryReqDto, CreatePageReqDto } from './gallery.req.dto';
 

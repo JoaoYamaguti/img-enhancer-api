@@ -6,15 +6,24 @@ class GalleryService {
   public constructor(private prisma: PrismaService) {}
 
   public async index(userId: number, page: number) {
-    console.log(page);
     const gallery = await this.prisma.gallery.findMany({
       where: { user_id: userId },
       take: 6,
       skip: 6 * (page - 1),
     });
+    const length = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      include: {
+        _count: {
+          select: { Gallery: true },
+        },
+      },
+    });
     return {
       statusCode: 200,
-      message: gallery,
+      message: { gallery, length: length._count.Gallery },
     };
   }
 
