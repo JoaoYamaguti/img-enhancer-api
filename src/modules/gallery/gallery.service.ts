@@ -43,7 +43,7 @@ class GalleryService {
     });
 
     if (!image) {
-      return { statusCode: 400, message: 'failed' };
+      return { statusCode: 400, message: ['failed'] };
     }
     return { statusCode: 200, message: image };
   }
@@ -56,7 +56,7 @@ class GalleryService {
     if (!image) {
       return {
         statusCode: 404,
-        message: 'image does not found.',
+        message: ['image does not found.'],
       };
     }
 
@@ -64,7 +64,7 @@ class GalleryService {
 
     return {
       statusCode: 200,
-      message: 'image deleted.',
+      message: ['image deleted.'],
     };
   }
 }

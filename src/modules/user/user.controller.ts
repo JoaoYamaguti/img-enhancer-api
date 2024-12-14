@@ -20,7 +20,7 @@ class UserController {
   @Delete('')
   public async delete(@Req() req, @Res() res: Response) {
     const service = await this.userServices.deleteUser(req.userId);
-    return res.status(service.statusCode).json(service.message);
+    return res.status(service.statusCode).json(service);
   }
 }
 

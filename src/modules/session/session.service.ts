@@ -16,7 +16,7 @@ class SessionService {
     if (!user) {
       return {
         statusCode: 404,
-        message: 'email does not exists.',
+        message: ['email does not exists.'],
       };
     }
 
@@ -25,7 +25,7 @@ class SessionService {
     if (!(await bcrypt.compare(password, password_hash))) {
       return {
         statusCode: 401,
-        message: 'password is incorrect.',
+        message: ['password is incorrect.'],
       };
     }
 

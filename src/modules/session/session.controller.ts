@@ -9,7 +9,7 @@ class SessionController {
   @Post()
   public async login(@Body() body: CreateSessionReqDto, @Res() res: Response) {
     const service = await this.sessionServices.login(body.email, body.password);
-    return res.status(service.statusCode).json(service.message);
+    return res.status(service.statusCode).json(service);
   }
 }
 

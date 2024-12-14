@@ -23,7 +23,7 @@ class GalleryController {
     @Res() res: Response,
   ) {
     const service = await this.galleryService.index(req.userId, query.page);
-    return res.status(service.statusCode).json(service.message);
+    return res.status(service.statusCode).json(service);
   }
   @Post()
   public async create(
@@ -37,12 +37,12 @@ class GalleryController {
       body.caught_file,
       body.new_file,
     );
-    return res.status(service.statusCode).json(service.message);
+    return res.status(service.statusCode).json(service);
   }
   @Delete(':id')
   public async delete(@Req() req, @Param('id') id, @Res() res: Response) {
     const service = await this.galleryService.delete(Number(id), req.UserId);
-    return res.status(service.statusCode).json(service.message);
+    return res.status(service.statusCode).json(service);
   }
 }
 export default GalleryController;

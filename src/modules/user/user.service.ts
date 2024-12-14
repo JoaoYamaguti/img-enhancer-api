@@ -31,7 +31,7 @@ class UserService {
 
     await this.prisma.user.delete({ where: { id } });
 
-    return { statusCode: 200, message: 'User Deleted.' };
+    return { statusCode: 200, message: ['User Deleted.'] };
   }
 }
 
