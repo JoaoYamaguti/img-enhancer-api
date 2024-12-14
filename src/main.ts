@@ -12,6 +12,7 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   });
+  console.log('CORS Origin:', process.env.WEBSERVICE)
   app.useGlobalPipes(new ValidationPipe());
   app.use(json({ limit: '10mb' }));
   app.use(urlencoded({ limit: '10mb', extended: true }));
